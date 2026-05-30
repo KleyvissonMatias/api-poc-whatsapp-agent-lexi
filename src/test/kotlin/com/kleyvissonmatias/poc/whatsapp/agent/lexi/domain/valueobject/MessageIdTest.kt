@@ -9,14 +9,14 @@ class MessageIdTest {
 
     @Test
     fun `should create message id with given value`() {
-        val id = MessageId("abc-123")
+        val id = MessageId.of("abc-123")
         assertEquals("abc-123", id.value)
     }
 
     @Test
     fun `should throw when value is blank`() {
-        assertThrows<IllegalArgumentException> { MessageId("") }
-        assertThrows<IllegalArgumentException> { MessageId("   ") }
+        assertThrows<IllegalArgumentException> { MessageId.of("") }
+        assertThrows<IllegalArgumentException> { MessageId.of("   ") }
     }
 
     @Test
@@ -28,7 +28,7 @@ class MessageIdTest {
 
     @Test
     fun `toString should return the value`() {
-        val id = MessageId("my-id")
+        val id = MessageId.of("my-id")
         assertEquals("my-id", id.toString())
     }
 }

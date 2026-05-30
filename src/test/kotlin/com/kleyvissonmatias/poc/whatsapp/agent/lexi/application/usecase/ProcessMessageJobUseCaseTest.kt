@@ -1,11 +1,11 @@
-package com.kleyvissonmatias.poc.whatsapp.agent.lexi.application.service
+package com.kleyvissonmatias.poc.whatsapp.agent.lexi.application.usecase
 
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.aggregate.MessageAggregate
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.entity.InboundMessage
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.exception.JobNotFoundException
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.port.LlmPort
+import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.port.MessageRepository
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.port.OutboundMessagingPort
-import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.repository.MessageRepository
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.valueobject.MessageContent
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.valueobject.MessageId
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.valueobject.ProcessingStatus

@@ -1,7 +1,7 @@
-package com.kleyvissonmatias.poc.whatsapp.agent.lexi.infrastructure.adapter.inbound.worker
+package com.kleyvissonmatias.poc.whatsapp.agent.lexi.infrastructure.worker
 
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.application.port.MessageQueuePort
-import com.kleyvissonmatias.poc.whatsapp.agent.lexi.application.service.ProcessMessageJobUseCase
+import com.kleyvissonmatias.poc.whatsapp.agent.lexi.application.usecase.ProcessMessageJobUseCase
 import kotlinx.coroutines.*
 import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicBoolean
@@ -12,7 +12,7 @@ class MessageProcessingWorker(
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
     private val isRunning = AtomicBoolean(false)
-    private val workerScope = CoroutineScope(Dispatchers.Default)
+    private val workerScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
     fun start() {
         if (isRunning.compareAndSet(false, true)) {
@@ -26,6 +26,7 @@ class MessageProcessingWorker(
     fun stop() {
         if (isRunning.compareAndSet(true, false)) {
             logger.info("Worker: Stopping message processing")
+            workerScope.cancel()
         }
     }
 

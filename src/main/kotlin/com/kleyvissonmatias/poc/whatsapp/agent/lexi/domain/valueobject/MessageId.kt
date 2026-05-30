@@ -2,9 +2,8 @@ package com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.valueobject
 
 import java.util.*
 
-data class MessageId(
-    val value: String = UUID.randomUUID().toString()
-) {
+@ConsistentCopyVisibility
+data class MessageId private constructor(val value: String) {
     init {
         require(value.isNotBlank()) { "MessageId cannot be blank" }
     }
@@ -12,6 +11,7 @@ data class MessageId(
     override fun toString(): String = value
 
     companion object {
-        fun generate(): MessageId = MessageId()
+        fun generate(): MessageId = MessageId(UUID.randomUUID().toString())
+        fun of(value: String): MessageId = MessageId(value)
     }
 }

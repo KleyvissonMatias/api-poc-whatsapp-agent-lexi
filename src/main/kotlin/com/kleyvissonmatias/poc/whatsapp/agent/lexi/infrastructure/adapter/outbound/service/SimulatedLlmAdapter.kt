@@ -7,14 +7,15 @@ import kotlinx.coroutines.delay
 import org.slf4j.LoggerFactory
 import kotlin.random.Random
 
-class FakeLlmService(
-    private val failureRate: Float = DEFAULT_FAILURE_RATE
+class SimulatedLlmAdapter(
+    private val failureRate: Float = DEFAULT_FAILURE_RATE,
+    private val delayMs: Long = DEFAULT_DELAY_MS
 ) : LlmPort {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override suspend fun generateResponse(userMessage: MessageContent): MessageContent {
         logger.info("LLM: Processing message (length=${userMessage.text.length})")
-        delay(LLM_DELAY_MS)
+        delay(delayMs)
 
         if (Random.nextFloat() < failureRate) {
             logger.warn("LLM: Simulated transient failure triggered")
@@ -27,6 +28,6 @@ class FakeLlmService(
 
     companion object {
         const val DEFAULT_FAILURE_RATE = 0.3f
-        private const val LLM_DELAY_MS = 10_000L
+        const val DEFAULT_DELAY_MS = 10_000L
     }
 }

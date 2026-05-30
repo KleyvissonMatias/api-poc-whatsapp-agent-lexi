@@ -1,4 +1,4 @@
-package com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.repository
+package com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.port
 
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.aggregate.MessageAggregate
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.valueobject.MessageId

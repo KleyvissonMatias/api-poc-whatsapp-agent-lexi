@@ -1,10 +1,10 @@
-package com.kleyvissonmatias.poc.whatsapp.agent.lexi.application.service
+package com.kleyvissonmatias.poc.whatsapp.agent.lexi.application.usecase
 
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.entity.OutboundMessage
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.exception.JobNotFoundException
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.port.LlmPort
+import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.port.MessageRepository
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.port.OutboundMessagingPort
-import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.repository.MessageRepository
 import org.slf4j.LoggerFactory
 
 class ProcessMessageJobUseCase(
@@ -18,29 +18,32 @@ class ProcessMessageJobUseCase(
         val aggregate = messageRepository.findByJobId(jobId)
             ?: throw JobNotFoundException("Job not found: $jobId")
 
-        messageRepository.save(aggregate.copy(messageJob = aggregate.messageJob.markAsProcessing()))
+        val processingAggregate = aggregate.copy(messageJob = aggregate.messageJob.markAsProcessing())
+        messageRepository.save(processingAggregate)
 
         return try {
-            val llmResponse = llmPort.generateResponse(aggregate.inboundMessage.content)
+            val llmResponse = llmPort.generateResponse(processingAggregate.inboundMessage.content)
 
             val outboundMessage = OutboundMessage.create(
-                recipientId = aggregate.inboundMessage.senderId,
+                recipientId = processingAggregate.inboundMessage.senderId,
                 content = llmResponse,
-                correlatedWithMessageId = aggregate.inboundMessage.messageId
+                correlatedWithMessageId = processingAggregate.inboundMessage.messageId
             )
 
-            outboundMessagingPort.sendMessage(outboundMessage).also {
-                messageRepository.save(
-                    aggregate.copy(
-                        messageJob = aggregate.messageJob.markAsCompleted(),
-                        outboundMessage = outboundMessage
-                    )
+            val sent = outboundMessagingPort.sendMessage(outboundMessage)
+            messageRepository.save(
+                processingAggregate.copy(
+                    messageJob = processingAggregate.messageJob.markAsCompleted(),
+                    outboundMessage = outboundMessage
                 )
-            }
+            )
+            sent
         } catch (ex: Exception) {
             logger.error("Failed to process job $jobId: ${ex.message}", ex)
             messageRepository.save(
-                aggregate.copy(messageJob = aggregate.messageJob.markAsFailed(ex.message ?: "Processing failed"))
+                processingAggregate.copy(
+                    messageJob = processingAggregate.messageJob.markAsFailed(ex.message ?: "Processing failed")
+                )
             )
             false
         }

@@ -2,7 +2,7 @@ package com.kleyvissonmatias.poc.whatsapp.agent.lexi.infrastructure.adapter.inbo
 
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.application.dto.InboundWebhookRequest
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.application.dto.WebhookResponse
-import com.kleyvissonmatias.poc.whatsapp.agent.lexi.application.service.ProcessInboundMessageUseCase
+import com.kleyvissonmatias.poc.whatsapp.agent.lexi.application.usecase.ProcessInboundMessageUseCase
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema

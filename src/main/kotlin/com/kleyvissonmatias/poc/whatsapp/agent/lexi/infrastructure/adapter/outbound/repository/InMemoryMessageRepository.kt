@@ -1,7 +1,7 @@
 package com.kleyvissonmatias.poc.whatsapp.agent.lexi.infrastructure.adapter.outbound.repository
 
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.aggregate.MessageAggregate
-import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.repository.MessageRepository
+import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.port.MessageRepository
 import com.kleyvissonmatias.poc.whatsapp.agent.lexi.domain.valueobject.MessageId
 import org.slf4j.LoggerFactory
 import java.util.concurrent.ConcurrentHashMap

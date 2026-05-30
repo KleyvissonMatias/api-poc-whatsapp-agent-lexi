@@ -1,4 +1,4 @@
-package com.kleyvissonmatias.poc.whatsapp.agent.lexi.api
+package com.kleyvissonmatias.poc.whatsapp.agent.lexi
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

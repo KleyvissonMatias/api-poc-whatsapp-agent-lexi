@@ -85,7 +85,7 @@ O sistema implementa **Arquitetura Hexagonal (Ports & Adapters)** com o seguinte
                                      ↓
                           [ProcessMessageJobUseCase]
                                      ↓
-                          [ResilientLlmAdapter] → [FakeLlmService] (simula LLM)
+                          [ResilientLlmAdapter] → [SimulatedLlmAdapter] (simula LLM)
                                      ↓
                           [WhatsAppOutboundService] → Outbound Call (log simulado)
 ```
